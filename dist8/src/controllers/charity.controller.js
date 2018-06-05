@@ -13,34 +13,35 @@ var __param = (this && this.__param) || function (paramIndex, decorator) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const rest_1 = require("@loopback/rest");
-const openapi_v3_1 = require("@loopback/openapi-v3");
-const context_1 = require("@loopback/context");
-/**
- * A simple controller to bounce back http requests
- */
-let PingController = class PingController {
-    constructor(req) {
-        this.req = req;
+const repository_1 = require("@loopback/repository");
+const charity_repository_1 = require("../repositories/charity.repository");
+let UserController = class UserController {
+    constructor(charityRepo) {
+        this.charityRepo = charityRepo;
     }
-    // Map to `GET /ping`
-    ping() {
-        return {
-            greeting: 'Hello from LoopBack',
-            date: new Date(),
-            url: this.req.url,
-            headers: Object.assign({}, this.req.headers),
-        };
+    async getAllUsers() {
+        return await this.charityRepo.find();
+    }
+    async getUserByID(id) {
+        return await this.charityRepo.findById(id);
     }
 };
 __decorate([
-    openapi_v3_1.get('/ping'),
+    rest_1.get('/charities'),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", []),
-    __metadata("design:returntype", Object)
-], PingController.prototype, "ping", null);
-PingController = __decorate([
-    __param(0, context_1.inject(rest_1.RestBindings.Http.REQUEST)),
-    __metadata("design:paramtypes", [Object])
-], PingController);
-exports.PingController = PingController;
-//# sourceMappingURL=ping.controller.js.map
+    __metadata("design:returntype", Promise)
+], UserController.prototype, "getAllUsers", null);
+__decorate([
+    rest_1.get('/charities/{id}'),
+    __param(0, rest_1.param.path.number('id')),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Number]),
+    __metadata("design:returntype", Promise)
+], UserController.prototype, "getUserByID", null);
+UserController = __decorate([
+    __param(0, repository_1.repository(charity_repository_1.CharityRepository.name)),
+    __metadata("design:paramtypes", [charity_repository_1.CharityRepository])
+], UserController);
+exports.UserController = UserController;
+//# sourceMappingURL=charity.controller.js.map

@@ -15,19 +15,39 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const rest_1 = require("@loopback/rest");
 const repository_1 = require("@loopback/repository");
 const user_repository_1 = require("../repositories/user.repository");
+const user_1 = require("../models/user");
 let LoginController = class LoginController {
     constructor(userRepo) {
         this.userRepo = userRepo;
     }
-    async logIn(email, password) {
-        return await this.userRepo.find();
+    async logIn(login) {
+        if (!login.email || !login.password) {
+            throw new rest_1.HttpErrors.Unauthorized('Not a valid login');
+        }
+        let userExists = !!(await this.userRepo.count({
+            and: [
+                { email: login.email },
+                { password: login.password }
+            ],
+        }));
+        if (!userExists) {
+            throw new rest_1.HttpErrors.Unauthorized('Not a valid login');
+        }
+        return await this.userRepo.findOne({
+            where: {
+                and: [
+                    { email: login.email },
+                    { password: login.password }
+                ],
+            }
+        });
     }
 };
 __decorate([
-    rest_1.post('/registration'),
+    rest_1.post('/login'),
     __param(0, rest_1.requestBody()),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [String, String]),
+    __metadata("design:paramtypes", [user_1.User]),
     __metadata("design:returntype", Promise)
 ], LoginController.prototype, "logIn", null);
 LoginController = __decorate([
