@@ -31,7 +31,11 @@ export class Charity extends Entity{
         required:true
     })
     phone: string;
-    
+    @property({
+        type: 'string',
+        required:true
+    })
+    url: string;
     getId(){
         return this.id;
     }

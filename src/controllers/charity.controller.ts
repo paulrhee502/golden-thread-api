@@ -3,7 +3,7 @@ import { repository } from "@loopback/repository";
 import { CharityRepository } from "../repositories/charity.repository";
 import { Charity } from "../models/charity";
 
-export class UserController {
+export class CharityController {
   constructor(@repository(CharityRepository.name) private charityRepo: CharityRepository) {}
   
   @get('/charities')

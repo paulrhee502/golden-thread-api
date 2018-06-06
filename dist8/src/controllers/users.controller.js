@@ -25,6 +25,10 @@ let UserController = class UserController {
     async getUserByID(id) {
         return await this.userRepo.findById(id);
     }
+    async getDonationsByUserId(userId, dateFrom) {
+        console.log(userId);
+        console.log(dateFrom);
+    }
 };
 __decorate([
     rest_1.get('/users'),
@@ -39,6 +43,14 @@ __decorate([
     __metadata("design:paramtypes", [Number]),
     __metadata("design:returntype", Promise)
 ], UserController.prototype, "getUserByID", null);
+__decorate([
+    rest_1.get('/users/{user_id}/donations?{date_from}'),
+    __param(0, rest_1.param.path.number('user_id')),
+    __param(1, rest_1.param.query.date('date_from')),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Number, Date]),
+    __metadata("design:returntype", Promise)
+], UserController.prototype, "getDonationsByUserId", null);
 UserController = __decorate([
     __param(0, repository_1.repository(user_repository_1.UserRepository.name)),
     __metadata("design:paramtypes", [user_repository_1.UserRepository])
