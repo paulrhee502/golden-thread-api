@@ -4,7 +4,7 @@ import {model, Entity, property} from '@loopback/repository';
     name: "payment"
 })
 
-export class Payment{
+export class Payment extends Entity{
     @property({
         type: 'number',
         id: true,
@@ -31,10 +31,10 @@ export class Payment{
     cardNum: number;
 
     @property({
-        type: 'Date',
+        type: 'string',
         required: true
     })
-    expDate: Date;
+    expDate: string;
 
     @property({
         type: 'number',

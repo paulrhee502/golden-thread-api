@@ -10,12 +10,12 @@ export class BankAccount extends Entity{
         required: true
     })
     charity_id: number;
-    
+
     @property({
-        type: 'string',
+        type: 'number',
         required: true
     })
-    bankName: string;
+    bank_id: number;
 
     @property({
         type: 'number',
@@ -23,5 +23,10 @@ export class BankAccount extends Entity{
     })
     accountNum: number;
 
-    //Add details needed for wire transfer!!
+    @property({
+        type:'number',
+        required:true
+    })
+    routingNum: number;
+
 }
